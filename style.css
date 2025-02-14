@@ -1,0 +1,315 @@
+/* Base Styles */
+body {
+  background-color: black;
+  color: #33ff33;
+  font-family: 'Courier New', monospace;
+  margin: 0;
+  padding: 20px;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(400px, 35%) 1fr;
+  gap: 20px;
+  animation: matrixGlow 5s infinite alternate;
+}
+
+/* Main Layout Grid */
+#console {
+  grid-column: 1;
+  height: calc(100vh - 40px);
+  overflow-y: auto;
+  padding: 20px;
+  border: 2px solid #33ff33;
+  box-shadow: 0 0 15px #33ff33;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: sticky;
+  top: 20px;
+}
+
+
+
+/* Headings */
+h1 {
+  font-size: 22px;
+  text-transform: lowercase;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 2px solid #33ff33;
+  width: fit-content;
+  animation: typing 3s steps(20, end), blink 0.8s infinite;
+}
+
+h2 {
+  font-size: 18px;
+  margin: 0;
+  padding: 10px 0;
+}
+
+/* Model Selection and Parameters */
+#modelandparamInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 15px;
+  border: 1px solid #33ff33;
+  border-radius: 4px;
+}
+
+/* Toggle Buttons Container */
+.toggle-buttons-container {
+  background: transparent;
+  color: #33ff33;
+  border: 1px solid #33ff33;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  
+}
+#modelContent, #modelParamsContainer {
+  width: 100%; /* Make both containers full width */
+}
+
+
+/* Toggle Buttons */
+#modelContent, #modelParamsContent {
+  width: 100%; /* Make both containers full width */
+  padding: 0; /* Remove any padding that might cause misalignment */
+}
+
+/* Toggle Buttons */
+.toggle-btn {
+  background: rgba(0, 0, 0, 0.8);
+  color: #33ff33;
+  border: 1px solid #33ff33;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: all 0.3s ease;
+  border-radius: 4px;
+  display: flex; /* Use flexbox for alignment */
+  justify-content: space-between; /* Space between text and arrow */
+  align-items: center; /* Vertically center content */
+  width: 100%; /* Full width of parent container */
+  height: 40px;
+  box-sizing: border-box; /* Include padding and border in width calculation */
+  text-align: center; /* Center the text */
+}
+
+/* Arrow styling */
+.toggle-btn::after {
+  content: '⬇'; /* Down arrow */
+  font-size: 12px;
+  transition: transform 0.3s ease;
+  margin-left: 8px; /* Space between text and arrow */
+}
+
+.toggle-btn.active::after {
+  transform: rotate(180deg); /* Rotate arrow when active */
+}
+
+.toggle-btn:hover {
+  background: #33ff33;
+  box-shadow: 0 0 8px rgba(51, 255, 51, 0.3);
+}
+
+/* Model Information Content */
+#modelContent, #modelParamsContainer {
+  background: rgba(0, 0, 0, 0.8);
+
+  border-radius: 4px;
+}
+
+#modelInfoContainer, #modelParamsContainer {
+  padding: 1px;
+  border: 1px solid rgba(51, 255, 51, 0.3);
+  border-radius: 4px;
+  margin-top: 2px;
+  background: rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+}
+
+/* Visualization Section */
+.visualization-container {
+  grid-column: 2; /* Ensure it's in the right column */
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  gap: 20px; /* Space between network canvas and charts */
+  height: calc(100vh - 40px);
+  overflow-y: auto;
+}
+
+#visualization {
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #33ff33;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 0 15px #33ff33;
+  height: min-content;
+}
+
+#networkCanvas {
+  width: 100%;
+  height: 400px;
+  background: black;
+  border: 1px solid #33ff33;
+  border-radius: 4px;
+  margin-bottom: 0; /* No margin needed here */
+}
+
+#charts {
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #33ff33;
+  border-radius: 4px;
+  box-shadow: 0 0 15px #33ff33;
+  display: grid;
+  grid-template-columns: 1fr; /* Single column for stacked charts */
+  gap: 20px; /* Space between charts */
+  padding: 20px; /* Padding inside the container */
+  width: 100%; /* Full width */
+}
+
+.chart-container {
+  height: 250px;
+  background: black;
+  border: 1px solid #33ff33;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+/* Buttons */
+button {
+  background: transparent;
+  color: #33ff33;
+  border: 1px solid #33ff33;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  text-transform: lowercase;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+}
+
+button:hover {
+  background: #33ff33;
+  color: black;
+  box-shadow: 0 0 8px #33ff33;
+}
+
+button.selected {
+  background: #33ff33;
+  color: black;
+  box-shadow: 0 0 10px #33ff33;
+}
+
+/* Hyperparameters Section */
+#hyperparameters {
+  display: grid;
+  gap: 15px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 15px;
+  border: 1px solid #33ff33;
+  border-radius: 4px;
+}
+
+/* Sliders */
+.slider-container {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+
+input[type="range"] {
+  width: 100%;
+  height: 4px;
+  background: #0a280a;
+  border-radius: 2px;
+  appearance: none;
+  outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background: #33ff33;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  background: #66ff66;
+  box-shadow: 0 0 5px #33ff33;
+}
+
+/* Logs Section */
+#logs {
+  flex-grow: 1;
+  min-height: 150px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid #33ff33;
+  padding: 10px;
+  font-size: 12px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  box-shadow: inset 0 0 5px #33ff33;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  body {
+    grid-template-columns: 1fr;
+    padding: 10px;
+  }
+
+  #console {
+    height: auto;
+    position: static;
+  }
+
+
+}
+
+/* Animations */
+@keyframes typing {
+  from { width: 0; }
+  to { width: fit-content; }
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+@keyframes matrixGlow {
+  0% { background-color: black; }
+  50% { background-color: #002200; }
+  100% { background-color: black; }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #33ff33;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #66ff66;
+}
