@@ -48,19 +48,13 @@ plus, it's just *cool* to watch a neural network learn. seeing the loss decrease
 ## models
 
 ### mlp (multi-layer perceptron)
-- **what it's for**: structured/tabular data (e.g., predicting house prices, customer churn).
-- **how it works**: a fully connected network that learns patterns in your data.
-- **input shape**: `[10]` (10 features per sample).
+-
 
 ### cnn (convolutional neural network)
-- **what it's for**: image data (e.g., classifying handwritten digits).
-- **how it works**: uses convolutional layers to detect spatial patterns like edges and shapes.
-- **input shape**: `[9, 9, 1]` (9x9 grayscale images).
+-
 
 ### rnn (recurrent neural network)
-- **what it's for**: sequential data (e.g., time-series, text).
-- **how it works**: processes data step-by-step, with memory to handle sequences.
-- **input shape**: `[20, 10]` (20 time steps, 10 features per step).
+-
 
 ---
 
