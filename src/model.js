@@ -36,26 +36,31 @@ export function createMLP(hiddenUnits, learningRate) {
 export function createCNN(filters, learningRate) {
     const model = tf.sequential();
 
-    model.add(tf.layers.conv2d({ 
-        filters: filters, kernelSize: 3, activation: 'relu', inputShape: [28, 28, 1] 
+    model.add(tf.layers.conv2d({
+        filters: filters,
+        kernelSize: 3,
+        activation: 'relu',
+        inputShape: [28, 28, 1], // Explicitly define input shape
+        padding: 'same' // Prevents dimensionality issues
     }));
-    model.add(tf.layers.batchNormalization()); 
+    model.add(tf.layers.batchNormalization());
     model.add(tf.layers.maxPooling2d({ poolSize: [2, 2] })); // Downsampling
     model.add(tf.layers.dropout(0.3));
 
-    model.add(tf.layers.flatten());
+    model.add(tf.layers.flatten()); // Convert 2D feature maps into 1D vector
     model.add(tf.layers.dense({ units: 128, activation: 'relu' }));
-    model.add(tf.layers.dropout(0.3)); // Dropout for regularization
+    model.add(tf.layers.dropout(0.3)); 
     model.add(tf.layers.dense({ units: 10, activation: 'softmax' })); // 10-class output
 
     model.compile({
         optimizer: tf.train.adam(learningRate),
-        loss: 'categoricalCrossentropy',
+        loss: 'categoricalCrossentropy', // Ensure multi-class classification
         metrics: ['accuracy']
     });
 
     return model;
 }
+
 
 /**
  * Creates a Simple Recurrent Neural Network (RNN)

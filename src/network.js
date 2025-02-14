@@ -1,3 +1,5 @@
+import { initializeCharts } from "./graph";
+
 // Colors for network visualization
 const COLORS = {
     background: "#000000",
@@ -14,7 +16,8 @@ let state = {
     layers: [],
     weights: {},
     selectedModel: null,
-    isInitialized: false
+    isInitialized: false,
+    nodePositions: []
 };
 
 /**
@@ -25,25 +28,24 @@ let state = {
 export function initializeNetwork(model, params) {
     console.log(`🖥️ Initializing Network for ${model}...`);
 
-    if (!state.isInitialized) {
-        const canvas = document.getElementById("networkCanvas");
-        if (!canvas) {
-            console.error("❌ Network canvas not found.");
-            return;
-        }
-
-        state.canvas = canvas;
-        state.ctx = canvas.getContext("2d");
-
-        // Set fixed dimensions
-        canvas.width = 600;
-        canvas.height = 300;
-
-        state.isInitialized = true;
+    const canvas = document.getElementById("networkCanvas");
+    if (!canvas) {
+        console.error("❌ Network canvas not found.");
+        return;
     }
 
+    state.canvas = canvas;
+    state.ctx = canvas.getContext("2d");
+
+    // Set fixed dimensions
+    canvas.width = 600;
+    canvas.height = 300;
+
+    state.isInitialized = true;
+
+    initializeCharts(); // Ensure charts are initialized before training
     setNetworkStructure(model, params);
-    requestAnimationFrame(drawNetwork);
+    drawNetwork(); // Draw the network immediately
 }
 
 /**
@@ -67,11 +69,33 @@ function setNetworkStructure(model, params) {
         default:
             state.layers = [];
             console.error("❌ Unknown model type:", model);
+            return;
     }
+
+    computeNodePositions();
 }
 
 /**
- * Draws the neural network visualization
+ * Computes the positions of neurons in each layer for smooth rendering.
+ */
+function computeNodePositions() {
+    const { canvas, layers } = state;
+    state.nodePositions = [];
+
+    const xSpacing = canvas.width / (layers.length + 1);
+
+    layers.forEach((neurons, layerIndex) => {
+        const ySpacing = canvas.height / (neurons + 1);
+        for (let neuronIndex = 0; neuronIndex < neurons; neuronIndex++) {
+            const x = xSpacing * (layerIndex + 1);
+            const y = ySpacing * (neuronIndex + 1);
+            state.nodePositions.push({ x, y, layer: layerIndex, index: neuronIndex });
+        }
+    });
+}
+
+/**
+ * Draws the neural network visualization.
  */
 function drawNetwork() {
     if (!state.ctx || state.layers.length === 0) {
@@ -79,50 +103,64 @@ function drawNetwork() {
         return;
     }
 
-    const { ctx, canvas, layers, weights } = state;
-
-    // Clear canvas
+    const { ctx, canvas, nodePositions, weights } = state;
+    
+    // Clear canvas before drawing
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const xSpacing = canvas.width / (layers.length + 1);
-    ctx.fillStyle = COLORS.neuron;
-    ctx.strokeStyle = COLORS.connection;
+    // Draw connections (weights)
+    nodePositions.forEach(({ x, y, layer, index }) => {
+        if (layer > 0) {
+            const prevLayerNodes = nodePositions.filter(node => node.layer === layer - 1);
+            prevLayerNodes.forEach(({ x: prevX, y: prevY, index: prevIndex }) => {
+                const weightKey = `${layer - 1}-${prevIndex}-${index}`;
+                const weightValue = weights[weightKey] || (Math.random() * 2 - 1).toFixed(2);
 
-    layers.forEach((neurons, layerIndex) => {
-        const ySpacing = canvas.height / (neurons + 1);
+                ctx.strokeStyle = COLORS.connection;
+                ctx.lineWidth = Math.abs(weightValue) * 2; // Thicker line for stronger weights
+                ctx.globalAlpha = Math.min(1, Math.abs(weightValue)); // Adjust opacity based on strength
+                
+                ctx.beginPath();
+                ctx.moveTo(prevX, prevY);
+                ctx.lineTo(x, y);
+                ctx.stroke();
 
-        for (let neuronIndex = 0; neuronIndex < neurons; neuronIndex++) {
-            const x = xSpacing * (layerIndex + 1);
-            const y = ySpacing * (neuronIndex + 1);
+                ctx.globalAlpha = 1.0; // Reset opacity
 
-            // Draw neuron
-            ctx.beginPath();
-            ctx.arc(x, y, 6, 0, Math.PI * 2);
-            ctx.fill();
-
-            if (layerIndex > 0) {
-                const prevLayerSize = layers[layerIndex - 1];
-                for (let prevNeuron = 0; prevNeuron < prevLayerSize; prevNeuron++) {
-                    const prevX = xSpacing * layerIndex;
-                    const prevY = (canvas.height / (prevLayerSize + 1)) * (prevNeuron + 1);
-
-                    // Draw connection
-                    ctx.beginPath();
-                    ctx.moveTo(prevX, prevY);
-                    ctx.lineTo(x, y);
-                    ctx.stroke();
-                }
-            }
+                // Draw weight text
+                ctx.fillStyle = COLORS.weightText;
+                ctx.font = "10px Courier New";
+                ctx.fillText(weightValue, (prevX + x) / 2 + 5, (prevY + y) / 2 + 5);
+            });
         }
     });
+
+    // Draw neurons
+    nodePositions.forEach(({ x, y }) => {
+        ctx.fillStyle = COLORS.neuron;
+        ctx.beginPath();
+        ctx.arc(x, y, 6, 0, Math.PI * 2);
+        ctx.fill();
+    });
+
+    console.log("🖥️ Network visualization updated.");
 }
 
 /**
- * Updates the network visualization with new weights
+ * Updates the network visualization with new weights.
  * @param {Object} newWeights - The updated weight values
  */
 export function updateNetwork(newWeights) {
     console.log("🔄 Updating Network with New Weights...");
     state.weights = newWeights;
-    requestAnimationFrame(drawNetwork);
+    drawNetwork();
+}
+
+/**
+ * Resets the network visualization.
+ */
+export function resetNetwork() {
+    console.log("🔄 Resetting Network...");
+    state.weights = {};
+    drawNetwork();
 }
