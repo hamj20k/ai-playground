@@ -1,6 +1,8 @@
 # ai playground
 
-welcome to the **ai playground**! this is a fun, interactive space where you can experiment with different neural network architectures, visualize their training progress, and tweak hyperparameters in real-time. whether you're a beginner or a seasoned ai enthusiast, this playground is designed to make machine learning approachable, intuitive, and, most importantly, *cool*. please remember, everything here should be considered a work in progress!
+welcome to the **ai playground**! this is a fun, interactive space where you can experiment with different neural network architectures, visualize their training progress, and tweak hyperparameters in real-time. whether you're a beginner or a seasoned ai enthusiast, this playground is designed to make machine learning approachable, intuitive, and, most importantly, *cool*. 
+
+please remember, everything here should be considered a **work in progress**! this project is more about showcasing the training process and letting you interact with neural networks rather than solving real-world problems. the data it's training on isn't particularly meaningful—it's mostly just here to demonstrate how the models learn and evolve.
 
 ---
 
