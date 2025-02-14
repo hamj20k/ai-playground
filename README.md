@@ -24,6 +24,8 @@ machine learning can feel intimidating. the math, the jargon, the endless hyperp
 
 plus, it's just *cool* to watch a neural network learn. seeing the loss decrease and accuracy improve in real-time is oddly satisfying. it's like watching a robot grow smarter right before your eyes.
 
+oh, and full disclosure: this project was also my way of diving deep into javascript. i wanted to understand how to build something interactive and dynamic from scratch, and what better way to do that than by creating a playground for ai? it's been a wild ride, and i'm pretty proud of how it's turning out.
+
 ---
 
 ## features
@@ -42,19 +44,6 @@ plus, it's just *cool* to watch a neural network learn. seeing the loss decrease
 2. **tweak the hyperparameters**: adjust the learning rate, batch size, epochs, and other settings to see how they affect training.
 3. **start training**: hit the "start training" button and watch the magic happen. the network will update in real-time, and you'll see the loss and accuracy improve.
 4. **visualize the results**: check out the charts to see how the model is performing. the neural network visualization will show you the structure of your model.
-
----
-
-## models
-
-### mlp (multi-layer perceptron)
--
-
-### cnn (convolutional neural network)
--
-
-### rnn (recurrent neural network)
--
 
 ---
 
@@ -78,12 +67,4 @@ plus, it's just *cool* to watch a neural network learn. seeing the loss decrease
 
 ## how to contribute
 
-whether you want to add new features, fix bugs, or improve the documentation, feel free to open an issue or submit a pull request.
-
----
-
-## final thoughts
-
-ai doesn't have to be intimidating. with the right tools, it can be fun, interactive, and even a little magical. this playground is my way of making machine learning more accessible and enjoyable. so go ahead, play around, tweak some settings, and see what you can create. who knows? you might just build something amazing.
-
-happy coding! 🚀
+this project is open-source, and contributions are welcome! whether you want to add new features, fix bugs, or improve the documentation, feel free to open an issue or submit a pull request
