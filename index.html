@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Playground</title>
+    
+    <!-- Import Styles -->
+    <link rel="stylesheet" href="/src/style.css">
+
+    <!-- Import JavaScript Modules -->
+    <script type="module" src="/src/main.js" defer></script>
+    <script type="module" src="/src/graph.js" defer></script>
+    <script type="module" src="/src/network.js" defer></script> <!-- Network visualization -->
+</head>
+<body>
+    <div id="console">
+        <h1>> AI Training Console</h1>
+        
+        <!-- Model Selection -->
+        <p>> Select a model:</p>
+        <button id="mlpBtn">MLP</button>
+        <button id="rnnBtn">RNN</button>
+        <button id="cnnBtn">CNN [Work in Progress]</button>
+        
+        <div id="modelandparamInfo">
+            <p>> Model Info:</p>
+          
+            <!-- Model Information Section -->
+            <div id="modelContent">
+              <h3 id="modelTitle">Select a model</h3>
+              <button id="toggleModelInfo" class="toggle-btn">Show Model Info ⬇</button>
+              <div id="modelInfoContainer" style="display: none;">
+                <p id="modelDescription">Choose a model to view details.</p>
+                <ul id="modelDetails"></ul>
+              </div>
+            </div>
+          
+            <!-- Model Parameter Section -->
+            <div id="modelParamsContent"> <!-- Added a consistent parent container -->
+              <button id="toggleModelParams" class="toggle-btn">Show Model Parameters ⬇</button>
+              <div id="modelParamsContainer" style="display: none;">
+                <h4>Model Parameters</h4>
+                <p><b>Preset Parameters:</b></p>
+                <ul id="presetParams"></ul>
+                <p><b>Adjustable Parameters:</b></p>
+                <ul id="variableParams"></ul>
+              </div>
+            </div>
+          </div>
+        
+        
+        <!-- Hyperparameter Panel -->
+        <div id="hyperparameters">
+            <p>> Hyperparameters:</p>
+        
+            <label>Learning Rate: <span id="learningRateValue">0.01</span></label>
+            <input type="range" id="learningRate" min="0.001" max="0.05" step="0.001" value="0.01">
+        
+            <label>Batch Size: <span id="batchSizeValue">16</span></label>
+            <input type="range" id="batchSize" min="8" max="32" step="8" value="16">
+        
+            <label>Epochs: <span id="epochsValue">10</span></label>
+            <input type="range" id="epochs" min="5" max="50" step="5" value="10">
+        
+            <label>Hidden Units: <span id="hiddenUnitsValue">32</span></label>
+            <input type="range" id="hiddenUnits" min="8" max="64" step="8" value="32">
+            <div id="mlpParams">
+                
+            </div>
+        
+            <div id="cnnParams" style="display: none;">
+                <label>Filters: <span id="filtersValue">8</span></label>
+                <input type="range" id="filters" min="4" max="32" step="4" value="8">
+            </div>
+        </div>
+        
+        <!-- Start/Stop Training Button -->
+        <button id="startTraining">Start Training</button>
+
+        <!-- Training Logs -->
+        <p>> Logs:</p>
+        <div id="logs">> Idle...</div>
+    </div>
+
+    <!-- Neural Network Visualization -->
+    <div class="visualization-container">
+        <!-- Neural Network Visualization -->
+        <div id="visualization">
+          <h2>> Neural Network Visualization</h2>
+          <canvas id="networkCanvas"></canvas>
+          <p>> shades of green represent edge weight. watch the model evolve live.</p>
+        </div>
+      
+        <!-- Charts Section -->
+        <div id="charts">
+          <h2>> Training Progress</h2>
+          <p>> Loss over epochs</p>
+          <div class="chart-container">
+            <canvas id="lossChart"></canvas>
+            
+          </div>
+          <p>> Accuracy over epochs</p>
+          <div class="chart-container">
+            <canvas id="accuracyChart"></canvas>
+            
+          </div>
+        </div>
+      </div>
+
+    <script>
+        // Ensure that slider values are reflected in the UI on page load
+        document.addEventListener("DOMContentLoaded", function () {
+            const sliders = {
+                learningRate: "0.01",
+                batchSize: "16",
+                epochs: "10",
+                hiddenUnits: "32",
+                filters: "8"
+            };
+
+            Object.keys(sliders).forEach(id => {
+                const slider = document.getElementById(id);
+                const valueSpan = document.getElementById(`${id}Value`);
+
+                if (slider && valueSpan) {
+                    slider.value = sliders[id]; // Set slider value
+                    valueSpan.innerText = sliders[id]; // Display initial value
+
+                    // Update value dynamically when user interacts
+                    slider.addEventListener("input", function () {
+                        valueSpan.innerText = this.value;
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
